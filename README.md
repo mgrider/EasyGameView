@@ -1,3 +1,7 @@
 # EasyGameView
 
-A description of this package.
+A SwiftUI grid view project for easy game creation.
+
+## TODO
+
+* finish writing this README
