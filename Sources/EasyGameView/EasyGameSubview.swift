@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct EasyGameSubview: View {
+public struct EasyGameSubview: View {
 
     /// Background color
-    @State var color = Color.red
+    @State var color = Color.clear
 
     /// How far the view has been dragged
     @State private var dragOffset = CGSize.zero
@@ -14,7 +14,7 @@ struct EasyGameSubview: View {
     /// The manager instance.
     @ObservedObject var manager: EasyGameManager
 
-    var body: some View {
+    public var body: some View {
         // a drag gesture that updates offset and isDragging as it moves around
         let dragGesture = DragGesture()
             .onChanged { value in
@@ -34,5 +34,11 @@ struct EasyGameSubview: View {
             .offset(dragOffset)
             .gesture(dragGesture)
             .zIndex(isDragging ? 2 : 1)
+    }
+
+    public init(color: Color = Color.clear,
+                manager: EasyGameManager) {
+        self.color = color
+        self.manager = manager
     }
 }

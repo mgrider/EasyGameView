@@ -1,6 +1,6 @@
 import Foundation
 
-enum EasyGameSubviewType: Int, Hashable, Codable {
+public enum EasyGameSubviewType: Int, Hashable, Codable {
 
     /// A simple grid where the subview states are represented by background color.
     /// Assign a `EasyGameColorProvider` to the `EasyGameManager` to define custom colors.
@@ -12,9 +12,10 @@ enum EasyGameSubviewType: Int, Hashable, Codable {
 }
 
 /// Light-weight configuration struct. Preferences for display go here.
-struct EasyGameViewConfiguration: Codable {
+public struct EasyGameViewConfiguration: Codable {
 
     /// The basic type of the grid subviews.
     var gridType: EasyGameSubviewType = .color
 
+    public init() {}
 }

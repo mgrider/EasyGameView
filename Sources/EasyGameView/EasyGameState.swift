@@ -1,7 +1,7 @@
 import Foundation
 
 /// Model struct for game state data.
-struct EasyGameState: Codable, CustomStringConvertible {
+public struct EasyGameState: Codable, CustomStringConvertible {
 
     // MARK: Sub Types
 
@@ -67,7 +67,7 @@ struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: Initializers & setup
 
     /// Initializer for the GGM_Model instance.
-    init(gridWidth width: Int = 8,
+    public init(gridWidth width: Int = 8,
          gridHeight height: Int = 8,
          stateDefault newDefault: Int? = nil,
          startDate: Date = Date()) {
@@ -168,7 +168,7 @@ struct EasyGameState: Codable, CustomStringConvertible {
 
     /// This exists to satisfy `CustomStringConvertible`, and allow you to
     /// `print("\(game)")` where game is an instance of `GGM_Game`.
-    var description: String {
+    public var description: String {
         return toString()
     }
 }
