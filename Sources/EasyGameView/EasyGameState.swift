@@ -134,6 +134,16 @@ public struct EasyGameState: Codable, CustomStringConvertible {
 
     // MARK: getting state
 
+    /// get the state from an index
+    func stateAt(index: Int) -> Int? {
+        return stateAt(point: pointFor(index: index))
+    }
+
+    /// get the state at a given point
+    func stateAt(point: Point) ->Int? {
+        return stateAt(x: point.x, y: point.y)
+    }
+
     /// get a single state value
     func stateAt(x: Int, y: Int) -> Int? {
         guard x >= 0, y >= 0, x < gridWidth, y < gridHeight else {
@@ -154,6 +164,27 @@ public struct EasyGameState: Codable, CustomStringConvertible {
         case .right:
             return stateAt(x: x+1, y: y)
         }
+    }
+
+    // MARK: index to point
+
+    /// Get an index from a point
+    func indexFor(point: Point) -> Int {
+        guard point.x >= 0, point.x < gridWidth,
+              point.y >= 0, point.y < gridHeight else {
+            return -1
+        }
+        return (point.y * gridHeight) + point.x
+    }
+
+    /// Get a Point from an index
+    func pointFor(index: Int) -> Point {
+        guard index >= 0, index < gridCount else {
+            return Point(x: -1, y: -1)
+        }
+        let y = index / gridHeight
+        let x = index % gridHeight
+        return Point(x: x, y: y)
     }
 
     // MARK: debug

@@ -2,7 +2,7 @@ import SwiftUI
 
 public struct EasyGameView: View {
 
-    @StateObject var manager = EasyGameManager()
+    @StateObject var manager: EasyGameManager
 
     public var body: some View {
         GeometryReader { proxy in
@@ -17,7 +17,8 @@ public struct EasyGameView: View {
             LazyVGrid(columns: gridItems, spacing: 0.0) {
                 ForEach(0..<manager.game.gridCount) { idx in
                     EasyGameSubview(
-                        color: Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1)),
+                        subviewIndex: idx,
+//                        color: Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1)),
                         manager: manager
                     )
                     .frame(width: cellWidth, height: cellHeight)
@@ -28,7 +29,9 @@ public struct EasyGameView: View {
         }
     }
 
-    public init() {}
+    public init(manager: EasyGameManager = EasyGameManager()) {
+        self._manager = StateObject(wrappedValue: manager)
+    }
 }
 
 struct EasyGameView_Previews: PreviewProvider {
