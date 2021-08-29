@@ -1,10 +1,10 @@
 import Foundation
 
-public protocol EasyGameSubviewTextProvider {
+public protocol EasyGameSubviewStateProviderText {
     func textForState(state: Int?) -> String
 }
 
-public struct EasyGameSubviewTextProviderDefault: EasyGameSubviewTextProvider {
+public struct EasyGameSubviewStateProviderTextDefault: EasyGameSubviewStateProviderText {
     public func textForState(state: Int?) -> String {
         guard let state = state else { return "?" }
         return "\(String(describing: state))"

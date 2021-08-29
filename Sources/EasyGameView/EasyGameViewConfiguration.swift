@@ -19,12 +19,17 @@ public struct EasyGameViewConfiguration: Codable {
 
     /// Whether or not you can drag subviews in the grid.
     var hasGestureDrag: Bool
+    
+    /// Whether or not you can tap subviews.
+    var hasGestureTap: Bool
 
     public init(
         gridType: EasyGameSubviewType = .color,
-        hasGestureDrag: Bool = false
+        hasGestureDrag: Bool = false,
+        hasGestureTap: Bool = false
     ) {
         self.gridType = gridType
         self.hasGestureDrag = hasGestureDrag
+        self.hasGestureTap = hasGestureTap
     }
 }

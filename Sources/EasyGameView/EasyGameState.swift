@@ -106,7 +106,20 @@ public struct EasyGameState: Codable, CustomStringConvertible {
 
     /// set a single state when x and y are known
     mutating func setState(atX x: Int, andY y: Int, to state: Int) {
+        guard x >= 0, x < gridWidth, y >= 0, y < gridHeight else {
+            return
+        }
         states[y][x] = state
+    }
+
+    /// set a single state when only the index is known
+    mutating func setState(atIndex index: Int, to state: Int) {
+        setState(atPoint: pointFor(index: index), to: state)
+    }
+
+    /// set a single state at a given Point
+    mutating func setState(atPoint point: Point, to state: Int) {
+        setState(atX: point.x, andY: point.y, to: state)
     }
 
     /// get a random possible state int between 0 and `stateMax`

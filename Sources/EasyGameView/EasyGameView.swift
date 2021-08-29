@@ -18,7 +18,6 @@ public struct EasyGameView: View {
                 ForEach(0..<manager.game.gridCount) { idx in
                     EasyGameSubview(
                         subviewIndex: idx,
-//                        color: Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1)),
                         manager: manager
                     )
                     .frame(width: cellWidth, height: cellHeight)

@@ -2,49 +2,56 @@ import SwiftUI
 
 public struct EasyGameSubview: View {
 
-    /// Text value (for gridType .text)
-    @State var stateText = ""
-
     /// How far the view has been dragged
     @State private var dragOffset = CGSize.zero
 
     /// Whether this view is currently being dragged or not.
     @State private var isDragging = false
 
-    @State var subviewIndex: Int
+    /// This is our index in the EasyGameView grid. We use it to show the correct state.
+    @State private var subviewIndex: Int
 
     /// The manager instance.
-    @ObservedObject var manager: EasyGameManager
+    @ObservedObject private var manager: EasyGameManager
 
     public var body: some View {
+        // a tap gesture that tells the manager it's been tapped
+        let tapGesture = TapGesture()
+            .onEnded { value in
+                guard manager.config.hasGestureTap else { return }
+                manager.handleTap(atIndex: subviewIndex)
+            }
         // a drag gesture that updates offset and isDragging as it moves around
         let dragGesture = DragGesture()
             .onChanged { value in
                 guard manager.config.hasGestureDrag else { return }
                 self.isDragging = true
                 self.dragOffset = value.translation
+                manager.handleDragContinued(atIndex: subviewIndex)
             }
             .onEnded { _ in
                 guard manager.config.hasGestureDrag else { return }
-                withAnimation {
+//                withAnimation {
                     self.dragOffset = .zero
                     self.isDragging = false
-                }
+//                }
+                manager.handleDragEnded(atIndex: subviewIndex)
             }
+        let gestures = tapGesture.exclusively(before: dragGesture)
         switch manager.config.gridType {
         case .color:
             return AnyView(Rectangle()
-                .fill(manager.colorForIndex(index: subviewIndex))
+                .fill(manager.stateColor(forIndex: subviewIndex))
                 .scaleEffect(isDragging ? 1.5 : 1)
                 .offset(dragOffset)
-                .gesture(dragGesture)
+                .gesture(gestures)
                 .zIndex(isDragging ? 2 : 1)
             )
         case .text:
-            return AnyView(Text(manager.textForIndex(index: subviewIndex))
+            return AnyView(Text(manager.stateText(forIndex: subviewIndex))
                 .scaleEffect(isDragging ? 1.5 : 1)
                 .offset(dragOffset)
-                .gesture(dragGesture)
+                .gesture(gestures)
                 .zIndex(isDragging ? 2 : 1)
             )
         }
