@@ -19,10 +19,10 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: convenience properties
 
     /// Whether or not the game is over.
-    var isOver = false
+    public var isOver = false
 
     /// Whether or not the game is paused.
-    var isPaused = false
+    public var isPaused = false
 
     // MARK: Date & time & game duration (mostly still TODO)
 
@@ -32,13 +32,13 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: state properties
 
     /// A default variable for grid states.
-    var stateDefault = -1
+    public var stateDefault = -1
 
     /// The value representing an empty game state
-    var stateEmpty = -1
+    public var stateEmpty = -1
 
     /// game states are between 0 and gridMaxStateInt
-    var stateMax = 1
+    public var stateMax = 1
 
     /// A multidimensional array representing the state of each grid space
     private(set) var states = [[Int]]()
@@ -46,19 +46,19 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: grid properties
 
     /// Total number of grid states.
-    var gridCount: Int {
+    public var gridCount: Int {
         gridWidth * gridHeight
     }
 
     /// Height of the grid in "units".
-    var gridHeight: Int {
+    public var gridHeight: Int {
         didSet {
             resizeGrid()
         }
     }
 
     /// Width of the grid in "units".
-    var gridWidth: Int {
+    public var gridWidth: Int {
         didSet {
             resizeGrid()
         }

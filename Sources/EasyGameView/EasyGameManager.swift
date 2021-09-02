@@ -5,22 +5,22 @@ public class EasyGameManager: ObservableObject {
 
     /// A representation of the state for our EasyGameView. This is essentially
     /// a multidimensional array of integers, with lots of helper functions.
-    @Published var game: EasyGameState
+    @Published public var game: EasyGameState
 
     /// A published object used to configure the EasyGameView.
-    @Published var config: EasyGameViewConfiguration
+    @Published public var config: EasyGameViewConfiguration
 
     /// An object that handles tap gestures.
-    @Published var gestureHandlerForTaps: EasyGameSubviewHandleTap
+    var gestureHandlerForTaps: EasyGameSubviewHandleTap
 
     /// An object that handles drag gestures.
-    @Published var gestureHandlerForDrag: EasyGameSubviewHandleDrag
+    var gestureHandlerForDrag: EasyGameSubviewHandleDrag
 
     /// A published object for providing state colors.
-    @Published var stateColorProvider: EasyGameSubviewStateProviderColor
+    var stateColorProvider: EasyGameSubviewStateProviderColor
 
     /// A published object for providing state to text subviews.
-    @Published var stateTextProvider: EasyGameSubviewStateProviderText
+    var stateTextProvider: EasyGameSubviewStateProviderText
 
     public init(game: EasyGameState = EasyGameState(),
                 colorProvider: EasyGameSubviewStateProviderColor = EasyGameSubviewStateProviderColorDefault(),
@@ -39,13 +39,21 @@ public class EasyGameManager: ObservableObject {
     // MARK: handling gestures
 
     /// called by subviews to handle drag continued
-    public func handleDragContinued(atIndex index: Int) {
-        game = gestureHandlerForDrag.handleDragContinued(forIndex: index, inGame: game)
+    public func handleDragContinued(atIndex index: Int, withOffset offset: CGSize) {
+        game = gestureHandlerForDrag.handleDragContinued(
+            forIndex: index,
+            withOffset: offset,
+            inGame: game,
+            withConfiguration: config)
     }
 
     /// called by subviews to handle drag ended
-    public func handleDragEnded(atIndex index: Int) {
-        game = gestureHandlerForDrag.handleDragEnded(forIndex: index, inGame: game)
+    public func handleDragEnded(atIndex index: Int, withOffset offset: CGSize) {
+        game = gestureHandlerForDrag.handleDragEnded(
+            forIndex: index,
+            withOffset: offset,
+            inGame: game,
+            withConfiguration: config)
     }
 
     /// called by subviews to handle taps

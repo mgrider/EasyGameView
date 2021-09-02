@@ -27,15 +27,13 @@ public struct EasyGameSubview: View {
                 guard manager.config.hasGestureDrag else { return }
                 self.isDragging = true
                 self.dragOffset = value.translation
-                manager.handleDragContinued(atIndex: subviewIndex)
+                manager.handleDragContinued(atIndex: subviewIndex, withOffset: dragOffset)
             }
             .onEnded { _ in
                 guard manager.config.hasGestureDrag else { return }
-//                withAnimation {
-                    self.dragOffset = .zero
-                    self.isDragging = false
-//                }
-                manager.handleDragEnded(atIndex: subviewIndex)
+                manager.handleDragEnded(atIndex: subviewIndex, withOffset: dragOffset)
+                self.dragOffset = .zero
+                self.isDragging = false
             }
         let gestures = tapGesture.exclusively(before: dragGesture)
         switch manager.config.gridType {

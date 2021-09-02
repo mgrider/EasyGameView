@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 public enum EasyGameSubviewType: Int, Hashable, Codable {
 
@@ -15,13 +15,16 @@ public enum EasyGameSubviewType: Int, Hashable, Codable {
 public struct EasyGameViewConfiguration: Codable {
 
     /// The basic type of the grid subviews.
-    var gridType: EasyGameSubviewType
+    public var gridType: EasyGameSubviewType
 
     /// Whether or not you can drag subviews in the grid.
-    var hasGestureDrag: Bool
-    
+    public var hasGestureDrag: Bool
+
     /// Whether or not you can tap subviews.
-    var hasGestureTap: Bool
+    public var hasGestureTap: Bool
+
+    /// The size of an individual subview.
+    public var subviewSize: CGSize = .zero
 
     public init(
         gridType: EasyGameSubviewType = .color,
