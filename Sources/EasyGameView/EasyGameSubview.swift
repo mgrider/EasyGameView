@@ -40,14 +40,14 @@ public struct EasyGameSubview: View {
         case .color:
             return AnyView(Rectangle()
                 .fill(manager.stateColor(forIndex: subviewIndex))
-                .scaleEffect(isDragging ? 1.5 : 1)
+                .scaleEffect(isDragging ? manager.config.dragScaleMultiplier : 1)
                 .offset(dragOffset)
                 .gesture(gestures)
                 .zIndex(isDragging ? 2 : 1)
             )
         case .text:
             return AnyView(Text(manager.stateText(forIndex: subviewIndex))
-                .scaleEffect(isDragging ? 1.5 : 1)
+                            .scaleEffect(isDragging ? manager.config.dragScaleMultiplier : 1)
                 .offset(dragOffset)
                 .gesture(gestures)
                 .zIndex(isDragging ? 2 : 1)

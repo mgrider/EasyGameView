@@ -60,7 +60,7 @@ public class EasyGameManager: ObservableObject {
     public func handleTap(atIndex index: Int) {
         game = gestureHandlerForTaps.handleTap(forIndex: index, inGame: game)
     }
-    
+
     // MARK: subview states
 
     /// called by our subviews to populate color states

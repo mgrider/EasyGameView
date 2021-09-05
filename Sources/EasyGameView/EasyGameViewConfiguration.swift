@@ -14,6 +14,9 @@ public enum EasyGameSubviewType: Int, Hashable, Codable {
 /// Light-weight configuration struct. Preferences for display go here.
 public struct EasyGameViewConfiguration: Codable {
 
+    /// A multiplier for the size of the subview's scale while it's being dragged.
+    public var dragScaleMultiplier: CGFloat
+
     /// The basic type of the grid subviews.
     public var gridType: EasyGameSubviewType
 
@@ -29,10 +32,12 @@ public struct EasyGameViewConfiguration: Codable {
     public init(
         gridType: EasyGameSubviewType = .color,
         hasGestureDrag: Bool = false,
-        hasGestureTap: Bool = false
+        hasGestureTap: Bool = false,
+        dragScaleMultiplier: CGFloat = 1.5
     ) {
         self.gridType = gridType
         self.hasGestureDrag = hasGestureDrag
         self.hasGestureTap = hasGestureTap
+        self.dragScaleMultiplier = dragScaleMultiplier
     }
 }
