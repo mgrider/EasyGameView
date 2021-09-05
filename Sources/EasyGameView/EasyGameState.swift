@@ -6,7 +6,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: Sub Types
 
     /// For relating positions to one another.
-    enum Direction {
+    public enum Direction {
         case up
         case down
         case left
@@ -14,7 +14,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// Encapsulation of x,y `Int` values.
-    typealias Point = (x: Int, y: Int)
+    public typealias Point = (x: Int, y: Int)
 
     // MARK: convenience properties
 
@@ -82,7 +82,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// This re-creates the "grid", which is essentially the multidimensional state array. Called on init.
-    mutating func setupGrid() {
+    mutating private func setupGrid() {
         states.removeAll()
         for _ in 0..<gridHeight {
             states.append(Array(repeating: stateDefault, count: gridWidth))
@@ -90,7 +90,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// This creates a new grid, copying over old state values when possible.
-    mutating func resizeGrid() {
+    mutating private func resizeGrid() {
         let oldStates = states
         setupGrid()
         for y in 0..<oldStates.count {
@@ -105,7 +105,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: setting state
 
     /// set a single state when x and y are known
-    mutating func setState(atX x: Int, andY y: Int, to state: Int) {
+    mutating public func setState(atX x: Int, andY y: Int, to state: Int) {
         guard x >= 0, x < gridWidth, y >= 0, y < gridHeight else {
             return
         }
@@ -113,12 +113,12 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// set a single state when only the index is known
-    mutating func setState(atIndex index: Int, to state: Int) {
+    mutating public func setState(atIndex index: Int, to state: Int) {
         setState(atPoint: pointFor(index: index), to: state)
     }
 
     /// set a single state at a given Point
-    mutating func setState(atPoint point: Point, to state: Int) {
+    mutating public func setState(atPoint point: Point, to state: Int) {
         setState(atX: point.x, andY: point.y, to: state)
     }
 
@@ -137,7 +137,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// set all states to this new value
-    mutating func setAllStates(to state: Int) {
+    mutating public func setAllStates(to state: Int) {
         for y in 0..<gridHeight {
             for x in 0..<gridWidth {
                 states[y][x] = state
@@ -148,17 +148,17 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: getting state
 
     /// get the state from an index
-    func stateAt(index: Int) -> Int? {
+    public func stateAt(index: Int) -> Int? {
         return stateAt(point: pointFor(index: index))
     }
 
     /// get the state at a given point
-    func stateAt(point: Point) ->Int? {
+    public func stateAt(point: Point) ->Int? {
         return stateAt(x: point.x, y: point.y)
     }
 
     /// get a single state value
-    func stateAt(x: Int, y: Int) -> Int? {
+    public func stateAt(x: Int, y: Int) -> Int? {
         guard x >= 0, y >= 0, x < gridWidth, y < gridHeight else {
             return nil
         }
@@ -166,7 +166,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// get a state in a position one unit away in a given direction
-    func state(inDirection: Direction, fromX x: Int, andY y: Int) -> Int? {
+    public func state(inDirection: Direction, fromX x: Int, andY y: Int) -> Int? {
         switch inDirection {
         case .up:
             return stateAt(x: x, y: y-1)
@@ -182,7 +182,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: index to point
 
     /// Get an index from a point
-    func indexFor(point: Point) -> Int {
+    public func indexFor(point: Point) -> Int {
         guard point.x >= 0, point.x < gridWidth,
               point.y >= 0, point.y < gridHeight else {
             return -1
@@ -191,7 +191,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// Get a Point from an index
-    func pointFor(index: Int) -> Point {
+    public func pointFor(index: Int) -> Point {
         guard index >= 0, index < gridCount else {
             return Point(x: -1, y: -1)
         }
