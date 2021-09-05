@@ -32,7 +32,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     // MARK: state properties
 
     /// A default variable for grid states.
-    public var stateDefault = -1
+    public var stateDefault: Int
 
     /// The value representing an empty game state
     public var stateEmpty = -1
@@ -53,6 +53,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     /// Height of the grid in "units".
     public var gridHeight: Int {
         didSet {
+            if gridHeight < 1 { gridHeight = 8 }
             resizeGrid()
         }
     }
@@ -60,6 +61,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     /// Width of the grid in "units".
     public var gridWidth: Int {
         didSet {
+            if gridWidth < 1 { gridWidth = 8 }
             resizeGrid()
         }
     }
@@ -69,15 +71,13 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     /// Initializer for the GGM_Model instance.
     public init(gridWidth width: Int = 8,
          gridHeight height: Int = 8,
-         stateDefault newDefault: Int? = nil,
+         stateDefault newStateDefault: Int = -1,
          startDate: Date = Date()) {
 
         gameTimeStartDate = startDate
         gridWidth = width
         gridHeight = height
-        if let newDefault = newDefault {
-            stateDefault = newDefault
-        }
+        stateDefault = newStateDefault
         setupGrid()
     }
 
@@ -128,7 +128,7 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     }
 
     /// completely randomize the grid states with values between `0` and `stateMax`
-    mutating func randomizeStates() {
+    mutating public func randomizeStates() {
         for y in 0..<gridHeight {
             for x in 0..<gridWidth {
                 states[y][x] = randomStateInt()
@@ -205,7 +205,13 @@ public struct EasyGameState: Codable, CustomStringConvertible {
     /// `toString` for debugging
     func toString() -> String {
         var string = "GGM_Game (\(type(of: self))) \n"
-        string += "\(String(describing: states)) \n"
+        for y in 0..<gridHeight {
+            for x in 0..<gridWidth {
+                string += "\(String(describing: states[y][x]).padding(toLength: 2, withPad: " ", startingAt: 0)), "
+            }
+//            string += "\(String(describing: states[y]) \n"
+            string += "\n"
+        }
         string += "Game Over: \(isOver), Paused: \(isPaused)"
         return string
     }
