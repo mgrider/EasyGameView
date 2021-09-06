@@ -26,29 +26,27 @@ public struct EasyGameSubview: View {
             .onChanged { value in
                 guard manager.config.hasGestureDrag else { return }
                 self.isDragging = true
-                self.dragOffset = value.translation
-                manager.handleDragContinued(atIndex: subviewIndex, withOffset: dragOffset)
+                manager.handleDragContinued(atIndex: subviewIndex, withGestureValue: value)
             }
-            .onEnded { _ in
+            .onEnded { value in
                 guard manager.config.hasGestureDrag else { return }
-                manager.handleDragEnded(atIndex: subviewIndex, withOffset: dragOffset)
-                self.dragOffset = .zero
+                manager.handleDragEnded(atIndex: subviewIndex, withGestureValue: value)
                 self.isDragging = false
             }
-        let gestures = tapGesture.exclusively(before: dragGesture)
+        let gestures = dragGesture.exclusively(before: tapGesture)
         switch manager.config.gridType {
         case .color:
             return AnyView(Rectangle()
                 .fill(manager.stateColor(forIndex: subviewIndex))
                 .scaleEffect(isDragging ? manager.config.dragScaleMultiplier : 1)
-                .offset(dragOffset)
+                .offset(manager.data.offsets[subviewIndex])
                 .gesture(gestures)
                 .zIndex(isDragging ? 2 : 1)
             )
         case .text:
             return AnyView(Text(manager.stateText(forIndex: subviewIndex))
-                            .scaleEffect(isDragging ? manager.config.dragScaleMultiplier : 1)
-                .offset(dragOffset)
+                .scaleEffect(isDragging ? manager.config.dragScaleMultiplier : 1)
+                .offset(manager.data.offsets[subviewIndex])
                 .gesture(gestures)
                 .zIndex(isDragging ? 2 : 1)
             )

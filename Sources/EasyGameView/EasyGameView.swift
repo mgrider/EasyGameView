@@ -25,7 +25,8 @@ public struct EasyGameView: View {
             }
             .frame(width: totalWidth)
             .onAppear(perform: {
-                manager.config.subviewSize = CGSize(width: cellWidth, height: cellHeight)
+                manager.data.totalSize = CGSize(width: totalWidth, height: totalHeight)
+                manager.data.subviewSize = CGSize(width: cellWidth, height: cellHeight)
             })
 
         }

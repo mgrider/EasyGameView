@@ -14,6 +14,10 @@ public enum EasyGameSubviewType: Int, Hashable, Codable {
 /// Light-weight configuration struct. Preferences for display go here.
 public struct EasyGameViewConfiguration: Codable {
 
+    /// Whether or not the current drag moves the subview while it's happening.
+    /// This only applies if `hasGestureDrag` is true.
+    public var dragMovesSubview: Bool
+
     /// A multiplier for the size of the subview's scale while it's being dragged.
     public var dragScaleMultiplier: CGFloat
 
@@ -26,18 +30,17 @@ public struct EasyGameViewConfiguration: Codable {
     /// Whether or not you can tap subviews.
     public var hasGestureTap: Bool
 
-    /// The size of an individual subview.
-    public var subviewSize: CGSize = .zero
-
     public init(
         gridType: EasyGameSubviewType = .color,
         hasGestureDrag: Bool = false,
         hasGestureTap: Bool = false,
+        dragMovesSubview: Bool = true,
         dragScaleMultiplier: CGFloat = 1.5
     ) {
         self.gridType = gridType
         self.hasGestureDrag = hasGestureDrag
         self.hasGestureTap = hasGestureTap
+        self.dragMovesSubview = dragMovesSubview
         self.dragScaleMultiplier = dragScaleMultiplier
     }
 }

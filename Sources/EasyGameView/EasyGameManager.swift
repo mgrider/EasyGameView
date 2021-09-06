@@ -10,6 +10,9 @@ public class EasyGameManager: ObservableObject {
     /// A published object used to configure the EasyGameView.
     @Published public var config: EasyGameViewConfiguration
 
+    /// A published object holding various subview data.
+    @Published public var data: EasyGameViewData
+
     /// An object that handles tap gestures.
     var gestureHandlerForTaps: EasyGameSubviewHandleTap
 
@@ -34,26 +37,26 @@ public class EasyGameManager: ObservableObject {
         self.gestureHandlerForTaps = handlerForTap
         self.stateColorProvider = colorProvider
         self.stateTextProvider = textProvider
+
+        self.data = EasyGameViewData(subviewCount: game.gridCount)
     }
-    
+
     // MARK: handling gestures
 
     /// called by subviews to handle drag continued
-    public func handleDragContinued(atIndex index: Int, withOffset offset: CGSize) {
-        game = gestureHandlerForDrag.handleDragContinued(
+    public func handleDragContinued(atIndex index: Int, withGestureValue value: DragGesture.Value) {
+        gestureHandlerForDrag.handleDragContinued(
             forIndex: index,
-            withOffset: offset,
-            inGame: game,
-            withConfiguration: config)
+            withGestureValue: value,
+            inManager: self)
     }
 
     /// called by subviews to handle drag ended
-    public func handleDragEnded(atIndex index: Int, withOffset offset: CGSize) {
-        game = gestureHandlerForDrag.handleDragEnded(
+    public func handleDragEnded(atIndex index: Int, withGestureValue value: DragGesture.Value) {
+        gestureHandlerForDrag.handleDragEnded(
             forIndex: index,
-            withOffset: offset,
-            inGame: game,
-            withConfiguration: config)
+            withGestureValue: value,
+            inManager: self)
     }
 
     /// called by subviews to handle taps
@@ -74,4 +77,22 @@ public class EasyGameManager: ObservableObject {
         let state = game.stateAt(index: index)
         return stateTextProvider.textForState(state: state)
     }
+
+    // MARK: coordinates and points
+
+    /// Get the coordinate point for a given pixel `CGPoint`.
+    /// - Parameter pixelPoint: A pixel coordinate, presumably within the bounds of this view.
+    /// - Returns: A `EasyGameState.Point` containing coordinates corresponding to x,y values in our game object.
+    public func coordinatePointFor(pixelPoint: CGPoint) -> EasyGameState.Point {
+        guard CGRect(x: 0.0, y: 0.0, width: data.totalSize.width, height: data.totalSize.height).contains(pixelPoint) else {
+            return (x: -1, y: -1);
+        }
+        switch config.gridType {
+        case .color, .text:
+            let x = Int(pixelPoint.x / data.subviewSize.width);
+            let y = Int(pixelPoint.y / data.subviewSize.height);
+            return (x: x, y: y)
+        }
+    }
+
 }
