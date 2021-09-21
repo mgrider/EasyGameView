@@ -200,6 +200,13 @@ public struct EasyGameState: Codable, CustomStringConvertible {
         return Point(x: x, y: y)
     }
 
+    // MARK: util
+
+    /// True if the given index is in an even row. Used for hexagon rendering.
+    public func indexIsInEvenRow(index: Int) -> Bool {
+        return (index / gridHeight) % 2 == 0
+    }
+
     // MARK: debug
 
     /// `toString` for debugging

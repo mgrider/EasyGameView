@@ -88,7 +88,7 @@ public class EasyGameManager: ObservableObject {
             return (x: -1, y: -1);
         }
         switch config.gridType {
-        case .color, .text:
+        case .color, .hexUpDown, .text:
             let x = Int(pixelPoint.x / data.subviewSize.width);
             let y = Int(pixelPoint.y / data.subviewSize.height);
             return (x: x, y: y)

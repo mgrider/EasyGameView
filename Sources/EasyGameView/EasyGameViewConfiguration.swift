@@ -6,6 +6,9 @@ public enum EasyGameSubviewType: Int, Hashable, Codable {
     /// Assign a `EasyGameColorProvider` to the `EasyGameManager` to define custom colors.
     case color
 
+    /// A grid of hexagons with corners pointing up and down.
+    case hexUpDown
+
     /// A grid of `Text` objects.
     /// Assign a `EasyGameTextProvider` to the `EasyGameManager` to define text strings.
     case text

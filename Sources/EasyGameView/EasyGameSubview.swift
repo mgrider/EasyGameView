@@ -35,7 +35,7 @@ public struct EasyGameSubview: View {
             }
         let gestures = dragGesture.exclusively(before: tapGesture)
         switch manager.config.gridType {
-        case .color:
+        case .color, .hexUpDown:
             return AnyView(Rectangle()
                 .fill(manager.stateColor(forIndex: subviewIndex))
                 .scaleEffect(isDragging ? manager.config.dragScaleMultiplier : 1)
@@ -52,6 +52,9 @@ public struct EasyGameSubview: View {
             )
         }
     }
+
+    /// Are we in an even coordinate row?
+    func isEvenRow() -> Bool { (subviewIndex / manager.game.gridHeight) % 2 == 0 }
 
     public init(subviewIndex: Int,
                 manager: EasyGameManager) {
